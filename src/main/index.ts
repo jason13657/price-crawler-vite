@@ -66,6 +66,10 @@ app.whenReady().then(() => {
     console.log('Update available.')
   })
 
+  autoUpdater.on('error', (err) => {
+    console.error('[auto-updater] error →', err)
+  })
+
   autoUpdater.on('update-downloaded', () => {
     const response = dialog.showMessageBoxSync({
       type: 'info',
