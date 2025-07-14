@@ -1,5 +1,5 @@
 import { autoUpdater } from 'electron-updater'
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -88,6 +88,14 @@ autoUpdater.on('update-available', () => {
 })
 
 autoUpdater.on('update-downloaded', () => {
-  console.log('Update downloaded. Will install now.')
-  autoUpdater.quitAndInstall()
+  const response = dialog.showMessageBoxSync({
+    type: 'info',
+    buttons: ['Install now', 'Later'],
+    title: 'Update Ready',
+    message: 'A new version has been downloaded. Do you want to install it now?'
+  })
+
+  if (response === 0) {
+    autoUpdater.quitAndInstall()
+  }
 })
