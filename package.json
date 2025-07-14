@@ -6,6 +6,8 @@
   "author": "example.com",
   "homepage": "https://electron-vite.org",
   "build": {
+    "productName": "Price Crawler",
+    "appId": "com.example.pricecrawler",
     "publish": {
       "provider": "github",
       "owner": "jason13657",

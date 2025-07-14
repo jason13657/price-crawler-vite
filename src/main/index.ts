@@ -60,6 +60,25 @@ app.whenReady().then(() => {
     }
   })
 
+  autoUpdater.checkForUpdatesAndNotify()
+
+  autoUpdater.on('update-available', () => {
+    console.log('Update available.')
+  })
+
+  autoUpdater.on('update-downloaded', () => {
+    const response = dialog.showMessageBoxSync({
+      type: 'info',
+      buttons: ['Install now', 'Later'],
+      title: 'Update Ready',
+      message: 'A new version has been downloaded. Do you want to install it now?'
+    })
+
+    if (response === 0) {
+      autoUpdater.quitAndInstall()
+    }
+  })
+
   createWindow()
 
   app.on('activate', function () {
@@ -80,22 +99,3 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-
-autoUpdater.checkForUpdatesAndNotify()
-
-autoUpdater.on('update-available', () => {
-  console.log('Update available.')
-})
-
-autoUpdater.on('update-downloaded', () => {
-  const response = dialog.showMessageBoxSync({
-    type: 'info',
-    buttons: ['Install now', 'Later'],
-    title: 'Update Ready',
-    message: 'A new version has been downloaded. Do you want to install it now?'
-  })
-
-  if (response === 0) {
-    autoUpdater.quitAndInstall()
-  }
-})
