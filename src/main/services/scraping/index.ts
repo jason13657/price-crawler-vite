@@ -2,47 +2,47 @@ import { GroupedItems, ScrappedItem } from '@common/type'
 import puppeteer from 'puppeteer'
 import { sleep } from './helpers'
 
-const sampleGroupedItems: GroupedItems = {
-  'iPhone 14 Pro 128GB': [
-    {
-      title: 'iPhone 14 Pro 128GB - Excellent Condition',
-      price: '$829',
-      seller: "John's Tech",
-      url: 'https://example.com/iphone-14-pro-128gb-1'
-    },
-    {
-      title: 'Refurbished iPhone 14 Pro 128GB Gold',
-      price: '$799',
-      seller: 'RefurbHub',
-      url: 'https://example.com/iphone-14-pro-128gb-2'
-    }
-  ],
-  'Galaxy S22 Ultra': [
-    {
-      title: 'Samsung Galaxy S22 Ultra 256GB - Certified',
-      price: '$950',
-      seller: 'Galaxy Deals',
-      url: 'https://example.com/galaxy-s22-ultra'
-    }
-  ]
-}
+// const sampleGroupedItems: GroupedItems = {
+//   'iPhone 14 Pro 128GB': [
+//     {
+//       title: 'iPhone 14 Pro 128GB - Excellent Condition',
+//       price: '$829',
+//       seller: "John's Tech",
+//       url: 'https://example.com/iphone-14-pro-128gb-1'
+//     },
+//     {
+//       title: 'Refurbished iPhone 14 Pro 128GB Gold',
+//       price: '$799',
+//       seller: 'RefurbHub',
+//       url: 'https://example.com/iphone-14-pro-128gb-2'
+//     }
+//   ],
+//   'Galaxy S22 Ultra': [
+//     {
+//       title: 'Samsung Galaxy S22 Ultra 256GB - Certified',
+//       price: '$950',
+//       seller: 'Galaxy Deals',
+//       url: 'https://example.com/galaxy-s22-ultra'
+//     }
+//   ]
+// }
 
 export async function scrapeFacebookPrices(keywords: string[], selectedLocation: string) {
-  // const results: GroupedItems = {}
+  const results: GroupedItems = {}
 
-  // for (const keyword of keywords) {
-  //   try {
-  //     const items = await scrapeFacebookPrice(keyword, selectedLocation)
-  //     results[keyword] = items
-  //   } catch (error) {
-  //     console.error(`Failed to scrape Facebook for keyword "${keyword}":`, error)
-  //     results[keyword] = []
-  //   }
+  for (const keyword of keywords) {
+    try {
+      const items = await scrapeFacebookPrice(keyword, selectedLocation)
+      results[keyword] = items
+    } catch (error) {
+      console.error(`Failed to scrape Facebook for keyword "${keyword}":`, error)
+      results[keyword] = []
+    }
 
-  //   await sleep(10)
-  // }
+    await sleep(10)
+  }
 
-  return sampleGroupedItems
+  return results
 }
 
 export async function scrapeFacebookPrice(
@@ -50,7 +50,7 @@ export async function scrapeFacebookPrice(
   selectedLocation: string
 ): Promise<ScrappedItem[]> {
   const url = buildFBSearchUrl(keyword, selectedLocation)
-
+  console.log(url)
   const browser = await puppeteer.launch({ headless: 'shell' })
   const page = await browser.newPage()
 

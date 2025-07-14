@@ -1,10 +1,17 @@
 {
   "name": "price-crawler-vite",
-  "version": "1.0.0",
-  "description": "An Electron application with React and TypeScript",
+  "version": "1.0.1",
+  "description": "Price Crawler",
   "main": "./out/main/index.js",
   "author": "example.com",
   "homepage": "https://electron-vite.org",
+  "build": {
+    "publish": {
+      "provider": "github",
+      "owner": "jason13657",
+      "repo": "price-crawler-vite"
+    }
+  },
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --cache .",
