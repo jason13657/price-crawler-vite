@@ -1,5 +1,6 @@
-import { GroupedItems, ScrappedItem } from '@common/type'
 import puppeteer from 'puppeteer'
+import fs from 'node:fs'
+import { GroupedItems, ScrappedItem } from '@common/type'
 import { sleep } from './helpers'
 
 // const sampleGroupedItems: GroupedItems = {
@@ -44,13 +45,25 @@ export async function scrapeFacebookPrices(keywords: string[], selectedLocation:
   return results
 }
 
+function chromeExecutablePathWin(): string {
+  const candidates = [
+    'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', // 64-bit 기본
+    'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe' // 32-bit 기본
+  ]
+
+  for (const p of candidates) {
+    if (fs.existsSync(p)) return p
+  }
+  throw new Error('Chrome executable not found on this system. ' + candidates.join(','))
+}
+
 export async function scrapeFacebookPrice(
   keyword: string,
   selectedLocation: string
 ): Promise<ScrappedItem[]> {
   const url = buildFBSearchUrl(keyword, selectedLocation)
-  console.log(url)
   const browser = await puppeteer.launch({
+    executablePath: chromeExecutablePathWin(),
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   })
