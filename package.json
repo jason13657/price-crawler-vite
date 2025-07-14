@@ -1,6 +1,6 @@
 {
   "name": "price-crawler-vite",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Price Crawler",
   "main": "./out/main/index.js",
   "author": "example.com",
