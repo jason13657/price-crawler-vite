@@ -34,9 +34,8 @@ export async function scrapeFacebookPrices(keywords: string[], selectedLocation:
     try {
       const items = await scrapeFacebookPrice(keyword, selectedLocation)
       results[keyword] = items
-    } catch (error) {
-      console.error(`Failed to scrape Facebook for keyword "${keyword}":`, error)
-      results[keyword] = []
+    } catch (err) {
+      throw err instanceof Error ? err : new Error(String(err))
     }
 
     await sleep(10)
@@ -51,7 +50,10 @@ export async function scrapeFacebookPrice(
 ): Promise<ScrappedItem[]> {
   const url = buildFBSearchUrl(keyword, selectedLocation)
   console.log(url)
-  const browser = await puppeteer.launch({ headless: 'shell' })
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  })
   const page = await browser.newPage()
 
   await page.setUserAgent(
