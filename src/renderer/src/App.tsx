@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="relative min-h-screen bg-gray-100 p-10 flex flex-col items-center justify-center w-full">
       <div className="absolute top-3 right-3">
-        <p>v1.0.6</p>
+        <p>v1.0.7</p>
       </div>
       {authenticated ? (
         <TypeSelection />
